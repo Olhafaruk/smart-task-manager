@@ -1,4 +1,11 @@
-export const themeStyles: any = {
+type Theme = "minimal" | "neumorph" | "glass";
+
+type ThemeStyle = {
+    card: string;
+    button: string;
+};
+
+export const themeStyles: Record<Theme, ThemeStyle> = {
   minimal: {
     card: "bg-slate-700 border border-slate-600",
     button: "bg-blue-600 hover:bg-blue-700",

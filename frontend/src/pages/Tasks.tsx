@@ -3,14 +3,21 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { apiTasks } from "../apiTasks";
 import SettingsPanel from "../components/SettingsPanel";
-import { useTheme } from "../context/ThemeContext";
+import { useTheme } from "../context/useTheme";
 import { themeStyles } from "../themeStyles";
+
+
+export type Task = {
+    id: number;
+    title: string;
+    completed: boolean;
+};
 
 export default function Tasks() {
   const navigate = useNavigate();
   const { themeStyle } = useTheme();
 
-  const [tasks, setTasks] = useState<any[]>([]);
+  const [tasks, setTasks] = useState<Task[]>([]);
   const [loading, setLoading] = useState(true);
   const [newTask, setNewTask] = useState("");
   const [error, setError] = useState("");
@@ -19,7 +26,7 @@ export default function Tasks() {
   const [editingText, setEditingText] = useState("");
 
   const [showSettings, setShowSettings] = useState(false);
-  const [filter, setFilter] = useState("all");
+  const [filter, setFilter] = useState<"all" | "active" | "completed">("all");
 
   async function loadTasks() {
     setLoading(true);
@@ -86,7 +93,7 @@ export default function Tasks() {
     }
   }
 
-  function startEdit(task: any) {
+  function startEdit(task: Task) {
     setEditingId(task.id);
     setEditingText(task.title);
   }
@@ -123,7 +130,7 @@ export default function Tasks() {
     }
   }
 
-  async function toggleCompleted(task: any) {
+  async function toggleCompleted(task: Task) {
     setError("");
 
     try {
@@ -153,7 +160,7 @@ export default function Tasks() {
   }, []);
 
 
-  const filteredTasks = tasks.filter((t) => {
+  const filteredTasks = tasks.filter((t: Task) => {
     if (filter === "active") return !t.completed;
     if (filter === "completed") return t.completed;
     return true;
