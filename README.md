@@ -19,7 +19,7 @@ A modern, clean, and intuitive task management application with authentication, 
 
 | Mobile | Register | Login |
 |--------|----------|-------|
-| <img src="./screenshots/mobile.png" width="250"/> | <img src="./screenshots/register.png" width="250"/> | <img src="./screenshots/login.png" width="250"/> |
+| <img src="./screenshots/mobile.png" height="360"/> | <img src="./screenshots/register.png" height="360"/> | <img src="./screenshots/login.png" height="360"/> |
 
 | Eye Theme | Neumorphism | Edit Task |
 |-----------|-------------|-----------|
