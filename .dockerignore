@@ -1,0 +1,35 @@
+# ============================
+# All
+# ============================
+.git
+.gitignore
+README.md
+LICENSE
+
+# ============================
+# Python backend (services/)
+# ============================
+services/__pycache__/
+services/**/*.pyc
+services/.mypy_cache/
+services/.pytest_cache/
+services/.env
+services/env/
+services/venv/
+services/.venv/
+
+# ============================
+# Frontend (React + Vite)
+# ============================
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+frontend/*.local
+
+# ============================
+# IDE / OS
+# ============================
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
