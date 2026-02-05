@@ -1,171 +1,42 @@
 // src/pages/Tasks.tsx
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { apiTasks } from "../apiTasks";
-import SettingsPanel from "../components/SettingsPanel";
-import { useTheme } from "../context/useTheme";
-import { themeStyles } from "../themeStyles";
-
-
-export type Task = {
-    id: number;
-    title: string;
-    completed: boolean;
-};
+import { useTheme } from "@/context/useTheme";
+import { themeStyles } from "@/themeStyles";
+import SettingsPanel from "@/components/SettingsPanel";
+import { useTasks } from "@/hooks/useTasks";
 
 export default function Tasks() {
-  const navigate = useNavigate();
+  const {
+    loading,
+    error,
+    tasks,
+    filteredTasks,
+
+    // state
+    newTask,
+    editingId,
+    editingText,
+    showSettings,
+    filter,
+
+    // setters
+    setNewTask,
+    setEditingText,
+    setShowSettings,
+    setFilter,
+
+    // actions
+    addTask,
+    deleteTask,
+    startEdit,
+    cancelEdit,
+    saveTask,
+    toggleCompleted,
+    handleLogout,
+  } = useTasks();
+
   const { themeStyle } = useTheme();
 
-  const [tasks, setTasks] = useState<Task[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [newTask, setNewTask] = useState("");
-  const [error, setError] = useState("");
-
-  const [editingId, setEditingId] = useState<number | null>(null);
-  const [editingText, setEditingText] = useState("");
-
-  const [showSettings, setShowSettings] = useState(false);
-  const [filter, setFilter] = useState<"all" | "active" | "completed">("all");
-
-  async function loadTasks() {
-    setLoading(true);
-    setError("");
-
-    try {
-      const response = await apiTasks("/tasks/");
-      if (!response.ok) {
-        setError("Failed to load tasks");
-        return;
-      }
-
-      const data = await response.json();
-      setTasks(data);
-    } catch {
-      setError("Server connection error");
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  async function addTask() {
-    setError("");
-
-    if (!newTask.trim()) {
-      setError("Task cannot be empty");
-      return;
-    }
-
-    try {
-      const response = await apiTasks("/tasks/", {
-        method: "POST",
-        body: JSON.stringify({ title: newTask }),
-      });
-
-      if (!response.ok) {
-        setError("Failed to add task");
-        return;
-      }
-
-      setNewTask("");
-      loadTasks();
-    } catch {
-      setError("Server connection error");
-    }
-  }
-
-  async function deleteTask(id: number) {
-    setError("");
-
-    try {
-      const response = await apiTasks(`/tasks/${id}`, {
-        method: "DELETE",
-      });
-
-      if (!response.ok) {
-        setError("Failed to delete task");
-        return;
-      }
-
-      loadTasks();
-    } catch {
-      setError("Server connection error");
-    }
-  }
-
-  function startEdit(task: Task) {
-    setEditingId(task.id);
-    setEditingText(task.title);
-  }
-
-  function cancelEdit() {
-    setEditingId(null);
-    setEditingText("");
-  }
-
-  async function saveTask(id: number) {
-    setError("");
-
-    if (!editingText.trim()) {
-      setError("Task cannot be empty");
-      return;
-    }
-
-    try {
-      const response = await apiTasks(`/tasks/${id}`, {
-        method: "PUT",
-        body: JSON.stringify({ title: editingText }),
-      });
-
-      if (!response.ok) {
-        setError("Failed to update task");
-        return;
-      }
-
-      setEditingId(null);
-      setEditingText("");
-      loadTasks();
-    } catch {
-      setError("Server connection error");
-    }
-  }
-
-  async function toggleCompleted(task: Task) {
-    setError("");
-
-    try {
-      const response = await apiTasks(`/tasks/${task.id}`, {
-        method: "PUT",
-        body: JSON.stringify({ completed: !task.completed }),
-      });
-
-      if (!response.ok) {
-        setError("Failed to update task");
-        return;
-      }
-
-      loadTasks();
-    } catch {
-      setError("Server connection error");
-    }
-  }
-
-  function handleLogout() {
-    localStorage.removeItem("token");
-    navigate("/");
-  }
-
-  useEffect(() => {
-    loadTasks();
-  }, []);
-
-
-  const filteredTasks = tasks.filter((t: Task) => {
-    if (filter === "active") return !t.completed;
-    if (filter === "completed") return t.completed;
-    return true;
-  });
-
+  // --- LOADING SCREEN ---
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-slate-900 text-white">
@@ -283,7 +154,7 @@ export default function Tasks() {
                 key={task.id}
                 className={`${themeStyles[themeStyle].card} p-3 rounded flex justify-between items-center gap-3`}
               >
-                {/* Completed checkbox with tooltip */}
+                {/* Completed checkbox */}
                 <div className="relative group flex items-center">
                   <input
                     type="checkbox"

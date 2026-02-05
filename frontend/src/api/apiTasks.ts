@@ -1,5 +1,4 @@
-// src/apiTasks.ts
-
+// src/api/apiTasks.ts
 const TASK_API_URL = import.meta.env.VITE_TASK_API_URL;
 
 export async function apiTasks(path: string, options: RequestInit = {}) {
@@ -23,6 +22,3 @@ export async function apiTasks(path: string, options: RequestInit = {}) {
 
   return response;
 }
-
-
-

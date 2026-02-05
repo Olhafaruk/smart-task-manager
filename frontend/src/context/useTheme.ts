@@ -1,3 +1,4 @@
+//frontend/src/context
 import { useContext } from "react";
 import { ThemeContext } from "./ThemeContext";
 
