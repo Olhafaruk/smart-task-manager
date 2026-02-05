@@ -1,5 +1,5 @@
 // src/components/SettingsPanel.tsx
-import { useTheme } from "../context/useTheme";
+import { useTheme } from '../context/useTheme';
 
 export default function SettingsPanel() {
   const { themeStyle, setThemeStyle } = useTheme();

@@ -1,6 +1,6 @@
-import { createContext } from "react";
+import { createContext } from 'react';
 
-export type Theme = "minimal" | "glass" | "neumorph";
+export type Theme = 'minimal' | 'glass' | 'neumorph';
 
 export interface ThemeContextValue {
   themeStyle: Theme;

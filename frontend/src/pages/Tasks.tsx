@@ -1,8 +1,8 @@
 // src/pages/Tasks.tsx
-import { useTheme } from "@/context/useTheme";
-import { themeStyles } from "@/themeStyles";
-import SettingsPanel from "@/components/SettingsPanel";
-import { useTasks } from "@/hooks/useTasks";
+import { useTheme } from '@/context/useTheme';
+import { themeStyles } from '@/themeStyles';
+import SettingsPanel from '@/components/SettingsPanel';
+import { useTasks } from '@/hooks/useTasks';
 
 export default function Tasks() {
   const {
@@ -88,9 +88,7 @@ export default function Tasks() {
 
       {/* Error message */}
       {error && (
-        <div className="bg-red-600 text-white p-2 rounded mb-4 text-center">
-          {error}
-        </div>
+        <div className="bg-red-600 text-white p-2 rounded mb-4 text-center">{error}</div>
       )}
 
       {/* Add Task */}
@@ -116,27 +114,27 @@ export default function Tasks() {
       {/* Filters */}
       <div className="flex gap-2 mb-4">
         <button
-          onClick={() => setFilter("all")}
+          onClick={() => setFilter('all')}
           className={`px-3 py-1 rounded ${
-            filter === "all" ? "bg-blue-600" : "bg-slate-700"
+            filter === 'all' ? 'bg-blue-600' : 'bg-slate-700'
           }`}
         >
           All
         </button>
 
         <button
-          onClick={() => setFilter("active")}
+          onClick={() => setFilter('active')}
           className={`px-3 py-1 rounded ${
-            filter === "active" ? "bg-blue-600" : "bg-slate-700"
+            filter === 'active' ? 'bg-blue-600' : 'bg-slate-700'
           }`}
         >
           Active
         </button>
 
         <button
-          onClick={() => setFilter("completed")}
+          onClick={() => setFilter('completed')}
           className={`px-3 py-1 rounded ${
-            filter === "completed" ? "bg-blue-600" : "bg-slate-700"
+            filter === 'completed' ? 'bg-blue-600' : 'bg-slate-700'
           }`}
         >
           Completed
@@ -174,9 +172,7 @@ export default function Tasks() {
                       shadow-lg
                     "
                   >
-                    {task.completed
-                      ? "Unmark as completed"
-                      : "Mark as completed"}
+                    {task.completed ? 'Unmark as completed' : 'Mark as completed'}
                   </div>
                 </div>
 
@@ -190,13 +186,7 @@ export default function Tasks() {
                       className="w-full p-2 rounded bg-slate-600 border border-slate-500"
                     />
                   ) : (
-                    <span
-                      className={
-                        task.completed
-                          ? "line-through text-slate-400"
-                          : ""
-                      }
-                    >
+                    <span className={task.completed ? 'line-through text-slate-400' : ''}>
                       {task.title}
                     </span>
                   )}

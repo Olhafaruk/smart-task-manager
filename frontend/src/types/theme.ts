@@ -1,1 +1,1 @@
-export type Theme = "minimal" | "glass" | "neumorph";
+export type Theme = 'minimal' | 'glass' | 'neumorph';

@@ -2,10 +2,10 @@
 const TASK_API_URL = import.meta.env.VITE_TASK_API_URL;
 
 export async function apiTasks(path: string, options: RequestInit = {}) {
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem('token');
 
   const headers = {
-    "Content-Type": "application/json",
+    'Content-Type': 'application/json',
     ...(token ? { Authorization: `Bearer ${token}` } : {}),
     ...options.headers,
   };
@@ -16,8 +16,8 @@ export async function apiTasks(path: string, options: RequestInit = {}) {
   });
 
   if (response.status === 401) {
-    localStorage.removeItem("token");
-    window.location.href = "/";
+    localStorage.removeItem('token');
+    window.location.href = '/';
   }
 
   return response;

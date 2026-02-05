@@ -1,14 +1,14 @@
-import { useState, useEffect, ReactNode } from "react";
-import { ThemeContext, Theme } from "./ThemeContext";
+import { useState, useEffect, ReactNode } from 'react';
+import { ThemeContext, Theme } from './ThemeContext';
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
   const [themeStyle, setThemeStyle] = useState<Theme>(() => {
-    const saved = localStorage.getItem("themeStyle");
-    return (saved as Theme) || "minimal";
+    const saved = localStorage.getItem('themeStyle');
+    return (saved as Theme) || 'minimal';
   });
 
   useEffect(() => {
-    localStorage.setItem("themeStyle", themeStyle);
+    localStorage.setItem('themeStyle', themeStyle);
   }, [themeStyle]);
 
   return (

@@ -3,7 +3,7 @@ const API_URL = import.meta.env.VITE_AUTH_API_URL;
 
 export async function apiAuth(path: string, options: RequestInit = {}) {
   const headers = {
-    "Content-Type": "application/json",
+    'Content-Type': 'application/json',
     ...options.headers,
   };
 

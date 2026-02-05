@@ -1,36 +1,36 @@
 //src/pages/Login.tsx
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { apiAuth } from "../apiAuth";
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { apiAuth } from '../apiAuth';
 
 export default function Login() {
   const navigate = useNavigate();
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
 
   async function handleLogin(e: React.FormEvent) {
     e.preventDefault();
-    setError("");
+    setError('');
 
     try {
-      const response = await apiAuth("/auth/login", {
-        method: "POST",
+      const response = await apiAuth('/auth/login', {
+        method: 'POST',
         body: JSON.stringify({ email, password }),
       });
 
       if (!response.ok) {
-        setError("Incorrect email or password");
+        setError('Incorrect email or password');
         return;
       }
 
       const data = await response.json();
-      localStorage.setItem("token", data.access_token);
+      localStorage.setItem('token', data.access_token);
 
-      navigate("/tasks");
+      navigate('/tasks');
     } catch {
-      setError("Server connection error");
+      setError('Server connection error');
     }
   }
 
@@ -43,9 +43,7 @@ export default function Login() {
         <h1 className="text-3xl font-bold text-center">Login</h1>
 
         {error && (
-          <div className="bg-red-600 text-white p-2 rounded text-center">
-            {error}
-          </div>
+          <div className="bg-red-600 text-white p-2 rounded text-center">{error}</div>
         )}
 
         <div>
@@ -78,7 +76,7 @@ export default function Login() {
         </button>
 
         <p className="text-center text-sm">
-          No account?{" "}
+          No account?{' '}
           <a href="/register" className="text-blue-400 hover:underline">
             Register
           </a>
