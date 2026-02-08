@@ -126,12 +126,18 @@ smart-task-manager/
 ├── frontend/                     # React + Vite + Nginx
 │   ├── public/
 │   ├── src/
+│   │   ├── __tests__/
+│   │   ├── api/
 │   │   ├── assets/
 │   │   ├── components/
 │   │   ├── context/
+│   │   ├── hooks/
+│   │   │── types/
 │   │   └── pages/
+│   │    
 │   ├── nginx.conf
 │   ├── package.json
+│   ├── vitest.config.ts
 │   └── vite.config.ts
 │
 ├── docker-compose.yml
@@ -207,6 +213,37 @@ make restart   # rebuild + restart
 Swagger UI is enabled for both.
 
 ---
+## 🧪 Testing
+
+This project includes a comprehensive test suite built with **Vitest** and **React Testing Library** to ensure UI stability and reliable user flows.
+
+### What is covered
+
+- **Authentication**
+  - Login page (happy path)
+  - Register page (validation and error handling)
+
+- **Tasks Page**
+  - Loading state
+  - Error state
+  - Empty list state
+  - Rendering tasks
+  - Adding a task
+  - Deleting a task
+  - Editing a task
+  - Filtering tasks
+  - Settings panel visibility
+
+### Running tests
+
+```bash
+npm test
+Test coverage
+To generate a full coverage report (terminal + HTML):
+npm test -- --coverage
+
+The HTML report will be available at:
+coverage/index.html
 
 ## 🗺️ Roadmap
 
@@ -219,9 +256,7 @@ Swagger UI is enabled for both.
 - Nginx production build
 
 ### 🚧 In Progress
-- ESLint + Prettier + Husky
-- GitHub Actions CI pipeline
-- Unit tests (Jest + RTL)
+
 - Integration tests for services
 - Architecture refactor (API layer, hooks, utils)
 
