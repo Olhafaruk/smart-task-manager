@@ -1,27 +1,27 @@
-import { render, screen, fireEvent } from "@testing-library/react";
-import { BrowserRouter } from "react-router-dom";
-import Tasks from "../pages/Tasks";
-import { vi } from "vitest";
+import { render, screen, fireEvent } from '@testing-library/react';
+import { BrowserRouter } from 'react-router-dom';
+import Tasks from '../pages/Tasks';
+import { vi } from 'vitest';
 
 // --- IMPORT HOOKS ---
-import { useTasks } from "@/hooks/useTasks";
-import { useTheme } from "@/context/useTheme";
+import { useTasks } from '@/hooks/useTasks';
+import { useTheme } from '@/context/useTheme';
 
 // --- MOCK MODULES ---
-vi.mock("@/hooks/useTasks");
-vi.mock("@/context/useTheme");
+vi.mock('@/hooks/useTasks');
+vi.mock('@/context/useTheme');
 
 // --- BASE MOCK ---
 const baseMock = {
   loading: false,
-  error: "",
+  error: '',
   tasks: [],
   filteredTasks: [],
-  newTask: "",
+  newTask: '',
   editingId: null,
-  editingText: "",
+  editingText: '',
   showSettings: false,
-  filter: "all",
+  filter: 'all',
 
   setNewTask: vi.fn(),
   setEditingText: vi.fn(),
@@ -39,14 +39,14 @@ const baseMock = {
 
 // --- THEME MOCK  ---
 (useTheme as vi.Mock).mockReturnValue({
-  themeStyle: "minimal", // <-- существующая тема
+  themeStyle: 'minimal', // <-- существующая тема
 });
 
 // ----------------------
 //       TESTS
 // ----------------------
 
-test("Tasks: shows loading spinner", () => {
+test('Tasks: shows loading spinner', () => {
   (useTasks as vi.Mock).mockReturnValue({
     ...baseMock,
     loading: true,
@@ -55,28 +55,28 @@ test("Tasks: shows loading spinner", () => {
   render(
     <BrowserRouter>
       <Tasks />
-    </BrowserRouter>
+    </BrowserRouter>,
   );
 
-  expect(screen.getByRole("status")).toBeInTheDocument();
+  expect(screen.getByRole('status')).toBeInTheDocument();
 });
 
-test("Tasks: shows error message", () => {
+test('Tasks: shows error message', () => {
   (useTasks as vi.Mock).mockReturnValue({
     ...baseMock,
-    error: "Server error",
+    error: 'Server error',
   });
 
   render(
     <BrowserRouter>
       <Tasks />
-    </BrowserRouter>
+    </BrowserRouter>,
   );
 
   expect(screen.getByText(/server error/i)).toBeInTheDocument();
 });
 
-test("Tasks: shows empty list message", () => {
+test('Tasks: shows empty list message', () => {
   (useTasks as vi.Mock).mockReturnValue({
     ...baseMock,
     filteredTasks: [],
@@ -85,30 +85,28 @@ test("Tasks: shows empty list message", () => {
   render(
     <BrowserRouter>
       <Tasks />
-    </BrowserRouter>
+    </BrowserRouter>,
   );
 
   expect(screen.getByText(/no tasks found/i)).toBeInTheDocument();
 });
 
-test("Tasks: renders tasks list", () => {
+test('Tasks: renders tasks list', () => {
   (useTasks as vi.Mock).mockReturnValue({
     ...baseMock,
-    filteredTasks: [
-      { id: 1, title: "Test task", completed: false },
-    ],
+    filteredTasks: [{ id: 1, title: 'Test task', completed: false }],
   });
 
   render(
     <BrowserRouter>
       <Tasks />
-    </BrowserRouter>
+    </BrowserRouter>,
   );
 
-  expect(screen.getByText("Test task")).toBeInTheDocument();
+  expect(screen.getByText('Test task')).toBeInTheDocument();
 });
 
-test("Tasks: calls addTask", () => {
+test('Tasks: calls addTask', () => {
   const addTask = vi.fn();
 
   (useTasks as vi.Mock).mockReturnValue({
@@ -119,59 +117,55 @@ test("Tasks: calls addTask", () => {
   render(
     <BrowserRouter>
       <Tasks />
-    </BrowserRouter>
+    </BrowserRouter>,
   );
 
-  fireEvent.click(screen.getByRole("button", { name: /add/i }));
+  fireEvent.click(screen.getByRole('button', { name: /add/i }));
 
   expect(addTask).toHaveBeenCalled();
 });
 
-test("Tasks: calls deleteTask", () => {
+test('Tasks: calls deleteTask', () => {
   const deleteTask = vi.fn();
 
   (useTasks as vi.Mock).mockReturnValue({
     ...baseMock,
-    filteredTasks: [
-      { id: 1, title: "Test", completed: false },
-    ],
+    filteredTasks: [{ id: 1, title: 'Test', completed: false }],
     deleteTask,
   });
 
   render(
     <BrowserRouter>
       <Tasks />
-    </BrowserRouter>
+    </BrowserRouter>,
   );
 
-  fireEvent.click(screen.getByRole("button", { name: /delete/i }));
+  fireEvent.click(screen.getByRole('button', { name: /delete/i }));
 
   expect(deleteTask).toHaveBeenCalledWith(1);
 });
 
-test("Tasks: calls startEdit", () => {
+test('Tasks: calls startEdit', () => {
   const startEdit = vi.fn();
 
   (useTasks as vi.Mock).mockReturnValue({
     ...baseMock,
-    filteredTasks: [
-      { id: 1, title: "Test", completed: false },
-    ],
+    filteredTasks: [{ id: 1, title: 'Test', completed: false }],
     startEdit,
   });
 
   render(
     <BrowserRouter>
       <Tasks />
-    </BrowserRouter>
+    </BrowserRouter>,
   );
 
-  fireEvent.click(screen.getByRole("button", { name: /edit/i }));
+  fireEvent.click(screen.getByRole('button', { name: /edit/i }));
 
   expect(startEdit).toHaveBeenCalled();
 });
 
-test("Tasks: filter buttons call setFilter", () => {
+test('Tasks: filter buttons call setFilter', () => {
   const setFilter = vi.fn();
 
   (useTasks as vi.Mock).mockReturnValue({
@@ -182,15 +176,15 @@ test("Tasks: filter buttons call setFilter", () => {
   render(
     <BrowserRouter>
       <Tasks />
-    </BrowserRouter>
+    </BrowserRouter>,
   );
 
-  fireEvent.click(screen.getByRole("button", { name: /active/i }));
+  fireEvent.click(screen.getByRole('button', { name: /active/i }));
 
-  expect(setFilter).toHaveBeenCalledWith("active");
+  expect(setFilter).toHaveBeenCalledWith('active');
 });
 
-test("Tasks: settings panel is visible", () => {
+test('Tasks: settings panel is visible', () => {
   (useTasks as vi.Mock).mockReturnValue({
     ...baseMock,
     showSettings: true,
@@ -199,7 +193,7 @@ test("Tasks: settings panel is visible", () => {
   render(
     <BrowserRouter>
       <Tasks />
-    </BrowserRouter>
+    </BrowserRouter>,
   );
 
   expect(screen.getByTitle(/settings/i)).toBeInTheDocument();
