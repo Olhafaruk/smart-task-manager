@@ -1,7 +1,8 @@
 //src/pages/Login.tsx
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { apiAuth } from '../apiAuth';
+import { apiAuth } from "../api/apiAuth";
+
 
 export default function Login() {
   const navigate = useNavigate();
@@ -47,26 +48,29 @@ export default function Login() {
         )}
 
         <div>
-          <label className="block mb-1">Email</label>
-          <input
-            type="email"
-            className="w-full p-2 rounded bg-slate-700 border border-slate-600"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
+            <label htmlFor="email" className="block mb-1">Email</label>
+            <input
+                id="email"
+                type="email"
+                className="w-full p-2 rounded bg-slate-700 border border-slate-600"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+            />
         </div>
 
         <div>
-          <label className="block mb-1">Password</label>
-          <input
-            type="password"
-            className="w-full p-2 rounded bg-slate-700 border border-slate-600"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
+            <label htmlFor="password" className="block mb-1">Password</label>
+            <input
+                id="password"
+                type="password"
+                className="w-full p-2 rounded bg-slate-700 border border-slate-600"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+            />
         </div>
+
 
         <button
           type="submit"
