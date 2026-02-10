@@ -1,11 +1,28 @@
+# FastAPI core
 fastapi
 uvicorn[standard]
+
+# Database
 sqlalchemy
 psycopg2-binary
+
+# Auth
 python-jose[cryptography]
 passlib[bcrypt]
 argon2-cffi
+
+# Validation
 pydantic
 pydantic[email]
+
+# Environment
 python-dotenv
+
+# Testing
+pytest
+pytest-asyncio
+pytest-cov
+pytest-mock
+httpx
+anyio
 
