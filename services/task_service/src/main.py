@@ -18,7 +18,7 @@ app.add_middleware(
 def health():
     return {"status": "ok"}
 
-Base.metadata.create_all(bind=engine)
+#Base.metadata.create_all(bind=engine)
 
 app.include_router(router)
 

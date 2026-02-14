@@ -1,25 +1,30 @@
-# services/auth-service/tests/conftest.py
-import asyncio
-asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
+#services/task_service/tests_task/conftest.py
 import pytest
 from httpx import AsyncClient, ASGITransport
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from src.main import app
-from src.db import Base
-from src.deps import get_db
+import services.task_service.src.events as events_module
+events_module.publish_event = lambda *args, **kwargs: None
+
+from services.task_service.src.main import app
+from services.task_service.src.deps import Base, get_db
+from services.task_service.src.auth import get_current_user
+
+app.dependency_overrides[get_current_user] = lambda: 1
 
 TEST_DATABASE_URL = "sqlite:///./test.db"
 
 engine = create_engine(
-    TEST_DATABASE_URL, connect_args={"check_same_thread": False}
+    TEST_DATABASE_URL,
+    connect_args={"check_same_thread": False}
 )
 
 TestingSessionLocal = sessionmaker(
-    autocommit=False, autoflush=False, bind=engine
+    autocommit=False,
+    autoflush=False,
+    bind=engine
 )
-
 
 def override_get_db():
     db = TestingSessionLocal()
@@ -28,15 +33,12 @@ def override_get_db():
     finally:
         db.close()
 
-
 app.dependency_overrides[get_db] = override_get_db
-
 
 @pytest.fixture(scope="session", autouse=True)
 def setup_database():
     Base.metadata.drop_all(bind=engine)
     Base.metadata.create_all(bind=engine)
-
 
 @pytest.fixture
 async def test_client():
