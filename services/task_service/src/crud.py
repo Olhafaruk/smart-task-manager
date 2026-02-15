@@ -33,7 +33,7 @@ def update_task(db: Session, task_id: int, user_id: int, data: TaskUpdate):
     if not task:
         return None
 
-    for field, value in data.dict(exclude_unset=True).items():
+    for field, value in data.model_dump(exclude_unset=True).items():
         setattr(task, field, value)
 
     db.commit()
