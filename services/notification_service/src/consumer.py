@@ -1,26 +1,35 @@
-#services/notification-service/src/consumer.py
-import pika
+# services/notification_service/src/consumer.py
+
 import json
-import time
-from dotenv import load_dotenv
 import os
+import time
+
+import pika
+from dotenv import load_dotenv
 
 load_dotenv()
 
+
+def handle_event(event: dict):
+    print(f" [x] Received event: {event['type']}")
+    print(f"     Payload: {event['payload']}")
+
+
+def callback(ch, method, properties, body):
+    event = json.loads(body)
+    handle_event(event)
+
+
 def start_consumer():
     credentials = pika.PlainCredentials(
-        os.getenv("RABBITMQ_USER"),
-        os.getenv("RABBITMQ_PASSWORD")
+        os.getenv("RABBITMQ_USER"), os.getenv("RABBITMQ_PASSWORD")
     )
-
 
     while True:
         try:
             connection = pika.BlockingConnection(
                 pika.ConnectionParameters(
-                    host="rabbitmq",
-                    port=5672,
-                    credentials=credentials
+                    host="rabbitmq", port=5672, credentials=credentials
                 )
             )
             break
@@ -39,15 +48,6 @@ def start_consumer():
 
     print(" [*] Waiting for task events...")
 
-    def callback(ch, method, properties, body):
-        event = json.loads(body)
-        print(f" [x] Received event: {event['type']}")
-        print(f"     Payload: {event['payload']}")
-
-    channel.basic_consume(
-        queue=queue_name,
-        on_message_callback=callback,
-        auto_ack=True
-    )
+    channel.basic_consume(queue=queue_name, on_message_callback=callback, auto_ack=True)
 
     channel.start_consuming()

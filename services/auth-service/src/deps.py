@@ -1,6 +1,8 @@
-#services/auth-service/src/deps.py
+# services/auth-service/src/deps.py
 from sqlalchemy.orm import Session
+
 from .db import SessionLocal
+
 
 def get_db():
     db: Session = SessionLocal()

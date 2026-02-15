@@ -1,15 +1,13 @@
-#services/auth-service/tests/test_auth_routes.py
+# services/auth-service/tests/test_auth_routes.py
 import pytest
+
 
 # -----------------------------
 # /auth/register
 # -----------------------------
 @pytest.mark.asyncio
 async def test_register_user(test_client):
-    payload = {
-        "email": "test@example.com",
-        "password": "strongpassword"
-    }
+    payload = {"email": "test@example.com", "password": "strongpassword"}
 
     response = await test_client.post("/auth/register", json=payload)
     assert response.status_code == 201
@@ -21,10 +19,7 @@ async def test_register_user(test_client):
 
 @pytest.mark.asyncio
 async def test_register_duplicate_email(test_client):
-    payload = {
-        "email": "duplicate@example.com",
-        "password": "pass123"
-    }
+    payload = {"email": "duplicate@example.com", "password": "pass123"}
 
     # first registration
     await test_client.post("/auth/register", json=payload)
@@ -40,10 +35,7 @@ async def test_register_duplicate_email(test_client):
 # -----------------------------
 @pytest.mark.asyncio
 async def test_login_success(test_client):
-    payload = {
-        "email": "login@example.com",
-        "password": "mypassword"
-    }
+    payload = {"email": "login@example.com", "password": "mypassword"}
 
     # register first
     await test_client.post("/auth/register", json=payload)
@@ -59,10 +51,7 @@ async def test_login_success(test_client):
 
 @pytest.mark.asyncio
 async def test_login_invalid_email(test_client):
-    payload = {
-        "email": "notfound@example.com",
-        "password": "pass"
-    }
+    payload = {"email": "notfound@example.com", "password": "pass"}
 
     response = await test_client.post("/auth/login", json=payload)
     assert response.status_code == 400
@@ -72,16 +61,16 @@ async def test_login_invalid_email(test_client):
 @pytest.mark.asyncio
 async def test_login_wrong_password(test_client):
     # register
-    await test_client.post("/auth/register", json={
-        "email": "wrongpass@example.com",
-        "password": "correctpass"
-    })
+    await test_client.post(
+        "/auth/register",
+        json={"email": "wrongpass@example.com", "password": "correctpass"},
+    )
 
     # wrong password
-    response = await test_client.post("/auth/login", json={
-        "email": "wrongpass@example.com",
-        "password": "incorrectpass"
-    })
+    response = await test_client.post(
+        "/auth/login",
+        json={"email": "wrongpass@example.com", "password": "incorrectpass"},
+    )
 
     assert response.status_code == 400
     assert response.json()["detail"] == "Invalid email or password"
@@ -93,10 +82,7 @@ async def test_login_wrong_password(test_client):
 @pytest.mark.asyncio
 async def test_get_me(test_client):
     # register
-    payload = {
-        "email": "me@example.com",
-        "password": "pass123"
-    }
+    payload = {"email": "me@example.com", "password": "pass123"}
     await test_client.post("/auth/register", json=payload)
 
     # login
@@ -105,8 +91,7 @@ async def test_get_me(test_client):
 
     # get /auth/me
     response = await test_client.get(
-        "/auth/me",
-        headers={"Authorization": f"Bearer {token}"}
+        "/auth/me", headers={"Authorization": f"Bearer {token}"}
     )
 
     assert response.status_code == 200

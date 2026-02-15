@@ -93,8 +93,8 @@ services:
   notification-service:
     build:
       context: .
-      dockerfile: services/notification-service/Dockerfile
-    container_name: notification-service
+      dockerfile: services/notification_service/Dockerfile
+    container_name: notification_service
     env_file:
       - .env
     depends_on:

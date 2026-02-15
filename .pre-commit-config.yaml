@@ -1,0 +1,21 @@
+repos:
+  # Backend linters
+  - repo: https://github.com/psf/black
+    rev: 24.1.1
+    hooks:
+      - id: black
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.3.0
+    hooks:
+      - id: ruff
+      - id: ruff-format
+
+  # Frontend linters
+  - repo: local
+    hooks:
+      - id: frontend-lint
+        name: Frontend ESLint + Prettier
+        entry: npx lint-staged
+        language: system
+        pass_filenames: false

@@ -1,16 +1,14 @@
-#services/auth-service/src/main.py
+# services/auth-service/src/main.py
+
+from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
-from contextlib import asynccontextmanager
 from fastapi.middleware.cors import CORSMiddleware
 
 from .db import Base, engine
 from .routes import router as auth_router
 
-app = FastAPI(
-    title="Auth Service",
-    version="1.0.0"
-)
+app = FastAPI(title="Auth Service", version="1.0.0")
 
 app.add_middleware(
     CORSMiddleware,
@@ -23,11 +21,13 @@ app.add_middleware(
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-      Base.metadata.create_all(bind=engine)
-      yield
+    Base.metadata.create_all(bind=engine)
+    yield
+
 
 @app.get("/health")
 def health_check():
     return {"status": "ok"}
+
 
 app.include_router(auth_router, prefix="/auth")

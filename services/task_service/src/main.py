@@ -1,8 +1,8 @@
-#services/task-service/src/main.py
+# services/task-service/src/main.py
 from fastapi import FastAPI
-from .deps import Base, engine
-from .routes import router
 from fastapi.middleware.cors import CORSMiddleware
+
+from .routes import router
 
 app = FastAPI(title="Task Service")
 
@@ -14,11 +14,12 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
 @app.get("/health")
 def health():
     return {"status": "ok"}
 
-#Base.metadata.create_all(bind=engine)
+
+# Base.metadata.create_all(bind=engine)
 
 app.include_router(router)
-

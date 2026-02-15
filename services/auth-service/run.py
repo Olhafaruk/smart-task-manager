@@ -1,4 +1,4 @@
-#services/auth-service/run.py
+# services/auth-service/run.py
 import uvicorn
 
 if __name__ == "__main__":

@@ -1,0 +1,57 @@
+name: Backend CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+
+    steps:
+      # -------------------------
+      # 1. Checkout
+      # -------------------------
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # -------------------------
+      # 2. Python
+      # -------------------------
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+
+      # -------------------------
+      # 3. Install global tools
+      # -------------------------
+      - name: Install linters & pytest
+        run: |
+          pip install --upgrade pip
+          pip install ruff black pytest
+
+      # -------------------------
+      # 4. Install backend dependencies
+      # -------------------------
+      - name: Install backend dependencies
+        run: |
+          pip install -r services/auth-service/requirements.txt
+          pip install -r services/task_service/requirements.txt
+          pip install -r services/notification_service/requirements.txt
+
+      # -------------------------
+      # 5. Run linters
+      # -------------------------
+      - name: Run ruff
+        run: ruff check .
+
+      - name: Run black check
+        run: black . --check
+
+      # -------------------------
+      # 6. Run tests
+      # -------------------------
+      - name: Run pytest
+        run: pytest -q

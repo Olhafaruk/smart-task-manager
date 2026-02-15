@@ -1,7 +1,10 @@
-#services/auth-service/src/models.py
-from sqlalchemy import Column, Integer, String, DateTime
+# services/auth-service/src/models.py
 from datetime import datetime, timezone
+
+from sqlalchemy import Column, DateTime, Integer, String
+
 from .db import Base
+
 
 class User(Base):
     __tablename__ = "users"
@@ -10,6 +13,5 @@ class User(Base):
     email = Column(String, unique=True, index=True, nullable=False)
     password_hash = Column(String, nullable=False)
     created_at = Column(
-        DateTime(timezone=True),
-        default=lambda: datetime.now(timezone.utc)
+        DateTime(timezone=True), default=lambda: datetime.now(timezone.utc)
     )

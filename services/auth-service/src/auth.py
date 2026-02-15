@@ -1,8 +1,9 @@
-#services/auth-service/src/auth.py
-from datetime import datetime, timedelta, timezone
-from jose import JWTError, jwt
-from dotenv import load_dotenv
+# services/auth-service/src/auth.py
 import os
+from datetime import datetime, timedelta, timezone
+
+from dotenv import load_dotenv
+from jose import JWTError, jwt
 
 load_dotenv()
 
@@ -32,4 +33,3 @@ def decode_access_token(token: str):
         return user_id
     except JWTError:
         return None
-
