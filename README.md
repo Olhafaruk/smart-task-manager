@@ -1,4 +1,9 @@
-# Smart Task Manager — React + FastAPI Microservices (Docker, RabbitMQ, PostgreSQL)
+# ⭐ Smart Task Manager — React + FastAPI Microservices (Docker, RabbitMQ, PostgreSQL)
+
+<p align="center">
+  <a href="README.de.md"><img src="https://img.shields.io/badge/Deutsch-Lesen-black?style=for-the-badge" /></a>
+  <a href="README.ua.md"><img src="https://img.shields.io/badge/Українська-Читати-yellow?style=for-the-badge" /></a>
+</p>
 
 <p align="left">
   <img src="https://img.shields.io/badge/CI-GitHub%20Actions-blue?style=for-the-badge" />
@@ -10,6 +15,22 @@
 </p>
 
 A modern, clean, and intuitive task management application with authentication, task filters, customizable UI themes, and a fully containerized microservices architecture.
+
+---
+
+## 💼 For Recruiters
+
+This project is a **demo mini‑product** showcasing my engineering approach and architectural thinking.  
+It demonstrates:
+
+- Microservices architecture (FastAPI + RabbitMQ + PostgreSQL)  
+- Clean service boundaries and scalable design  
+- Production‑ready Docker orchestration  
+- CI, healthchecks, environment configuration  
+- Strong testing culture (frontend + backend, ~91% coverage)  
+- UI/UX attention: themes, responsiveness, clean layout  
+
+I’m open to opportunities to collaborate with a team on meaningful, technically interesting projects.
 
 ---
 
@@ -35,31 +56,9 @@ A modern, clean, and intuitive task management application with authentication, 
 
 ## 🏗️ Architecture Diagram
 
-```
-                     ┌──────────────────────┐
-                     │      Frontend        │
-                     │  React + Vite + TS   │
-                     │      (Nginx)         │
-                     └──────────┬───────────┘
-                                │ REST
-                                ▼
-        ┌──────────────────────────────────────────────────────┐
-        │                      Backend                          │
-        │                                                      │
-        │  ┌──────────────────┐     ┌──────────────────┐      │
-        │  │  Auth Service    │     │  Task Service     │      │
-        │  │   FastAPI        │     │    FastAPI        │      │
-        │  └───────┬──────────┘     └─────────┬────────┘      │
-        │           │ PostgreSQL               │ PostgreSQL     │
-        │           ▼                          ▼                │
-        │     auth_db                     tasks_db              │
-        │                                                      │
-        │  ┌────────────────────────────────────────────────┐  │
-        │  │             Notification Service                │  │
-        │  │       Python Consumer + RabbitMQ                │  │
-        │  └────────────────────────────────────────────────┘  │
-        └──────────────────────────────────────────────────────┘
-```
+<p align="center">
+  <img src="./docs/architecture-dark.svg" width="820" />
+</p>
 
 ---
 
@@ -68,45 +67,45 @@ A modern, clean, and intuitive task management application with authentication, 
 ### **Frontend**
 - React + Vite + TypeScript  
 - TailwindCSS  
-- Context API (global theme management)  
+- Context API  
 - REST API integration  
-- Nginx (production build)
+- Nginx (production)
 
 ### **Backend**
-- FastAPI (Auth Service, Task Service)  
+- FastAPI (Auth, Tasks)  
 - PostgreSQL (separate DB per service)  
 - SQLAlchemy  
-- RabbitMQ (message broker)  
-- Python Consumer (Notification Service)  
-- Docker & Docker Compose  
-- Healthchecks for all services  
+- RabbitMQ  
+- Python Consumer  
+- Docker Compose  
+- Healthchecks  
 
 ---
 
 ## 🎨 Features
 
 ### **Tasks**
-- Create, edit, delete tasks  
-- Filters: **All / Active / Completed**  
-- Clean, responsive UI  
+- Create, edit, delete  
+- Filters: All / Active / Completed  
+- Responsive UI  
 
 ### **Themes**
 - Minimal  
 - Neumorphism  
 - Glassmorphism  
-- Persistent theme storage  
-- Settings panel (⚙️)
+- Persistent theme  
+- Settings panel  
 
 ### **Auth**
 - Register / Login  
 - JWT tokens  
-- Protected routes via `PrivateRoute`  
+- Protected routes  
 
 ### **Architecture**
 - Microservices  
 - Independent databases  
-- RabbitMQ notifications  
-- Nginx‑served SPA frontend  
+- RabbitMQ events  
+- Nginx SPA  
 - Full Docker orchestration  
 
 ---
@@ -115,26 +114,14 @@ A modern, clean, and intuitive task management application with authentication, 
 
 ```
 smart-task-manager/
-├── services/                     # Backend microservices
+├── services/
 │   ├── auth-service/
-│   │   └── src/
 │   ├── task-service/
-│   │   └── src/
 │   └── notification-service/
-│       └── src/
 │
-├── frontend/                     # React + Vite + Nginx
+├── frontend/
 │   ├── public/
 │   ├── src/
-│   │   ├── __tests__/
-│   │   ├── api/
-│   │   ├── assets/
-│   │   ├── components/
-│   │   ├── context/
-│   │   ├── hooks/
-│   │   │── types/
-│   │   └── pages/
-│   │    
 │   ├── nginx.conf
 │   ├── package.json
 │   ├── vitest.config.ts
@@ -142,8 +129,6 @@ smart-task-manager/
 │
 ├── docker-compose.yml
 ├── Makefile
-├── .dockerignore
-├── .gitignore
 └── README.md
 ```
 
@@ -151,7 +136,7 @@ smart-task-manager/
 
 ## 🐳 Running the Project (Docker)
 
-### **1. Create `.env` in the project root**
+### **1. Create `.env`**
 
 ```env
 AUTH_DB_USER=postgres
@@ -175,7 +160,7 @@ VITE_TASK_API_URL=http://task-service:8002
 make up
 ```
 
-Application will be available at:
+App will be available at:
 
 ```
 http://localhost:5173
@@ -184,11 +169,11 @@ http://localhost:5173
 ### **3. Useful commands**
 
 ```bash
-make up        # start all services
-make down      # stop all services
-make logs      # view logs
-make ps        # container status
-make restart   # rebuild + restart
+make up
+make down
+make logs
+make ps
+make restart
 ```
 
 ---
@@ -201,7 +186,7 @@ make restart   # rebuild + restart
 | task-service         | `GET /health`                               |
 | notification-service | RabbitMQ management API                     |
 | rabbitmq             | `rabbitmq-diagnostics ping`                 |
-| frontend             | `curl http://localhost` (Nginx)             |
+| frontend             | `curl http://localhost`                     |
 
 ---
 
@@ -210,62 +195,46 @@ make restart   # rebuild + restart
 - **Auth Service** → http://localhost:8001/docs  
 - **Task Service** → http://localhost:8002/docs  
 
-Swagger UI is enabled for both.
-
 ---
+
 ## 🧪 Testing
 
-This project includes a comprehensive test suite built with **Vitest** and **React Testing Library** to ensure UI stability and reliable user flows.
+### Frontend (Vitest + RTL)
+- Auth flows  
+- Task CRUD  
+- Filters  
+- Settings panel  
+- Loading & error states  
 
-### What is covered
+### Backend (pytest)
+- Auth routes  
+- JWT logic  
+- Task CRUD  
+- RabbitMQ consumer  
+- Coverage: **~91%**
 
-- **Authentication**
-  - Login page (happy path)
-  - Register page (validation and error handling)
-
-- **Tasks Page**
-  - Loading state
-  - Error state
-  - Empty list state
-  - Rendering tasks
-  - Adding a task
-  - Deleting a task
-  - Editing a task
-  - Filtering tasks
-  - Settings panel visibility
-
-### Running tests
-
-```bash
-npm test
-Test coverage
-To generate a full coverage report (terminal + HTML):
-npm test -- --coverage
-
-The HTML report will be available at:
-coverage/index.html
+---
 
 ## 🗺️ Roadmap
 
 ### ✅ Completed
-- Full microservices architecture (Auth, Tasks, Notifications)
-- Dockerized environment with healthchecks
-- Responsive UI with multiple themes
-- JWT authentication
-- Task filters and inline editing
-- Nginx production build
+- Microservices architecture  
+- Docker orchestration  
+- Multiple UI themes  
+- JWT auth  
+- Task filters  
+- Nginx production build  
 
 ### 🚧 In Progress
-
-- Integration tests for services
-- Architecture refactor (API layer, hooks, utils)
+- Integration tests  
+- Architecture refactor  
 
 ### 🔮 Planned
-- E2E tests (Playwright)
-- Dark mode improvements
-- User profile page
-- Multi‑language support
-- Deploy to Render / Railway
+- E2E tests  
+- Dark mode improvements  
+- User profile  
+- Multi‑language UI  
+- Deployment  
 
 ---
 
@@ -274,3 +243,4 @@ coverage/index.html
 **GitHub:** https://github.com/Olhafaruk  
 **Email:** farukolga2017@gmail.com
 ```
+
